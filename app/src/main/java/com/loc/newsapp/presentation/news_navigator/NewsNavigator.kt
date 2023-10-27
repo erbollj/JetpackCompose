@@ -47,26 +47,33 @@ fun NewsNavigator() {
         else -> 0
     }
 
+    val isBottomBarVisible = remember(key1 = backStackState) {
+        backStackState?.destination?.route == Route.HomeScreen.route ||
+        backStackState?.destination?.route == Route.SearchScreen.route
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            NewsBottomNavigation(
-                items = bottomNavigationItem,
-                selected = selectedItem,
-                onItemCLick = { index ->
-                    when (index) {
-                        0 -> navigateToTap(
-                            navController = navController,
-                            route = Route.HomeScreen.route
-                        )
+            if (isBottomBarVisible) {
+                NewsBottomNavigation(
+                    items = bottomNavigationItem,
+                    selected = selectedItem,
+                    onItemCLick = { index ->
+                        when (index) {
+                            0 -> navigateToTap(
+                                navController = navController,
+                                route = Route.HomeScreen.route
+                            )
 
-                        1 -> navigateToTap(
-                            navController = navController,
-                            route = Route.SearchScreen.route
-                        )
+                            1 -> navigateToTap(
+                                navController = navController,
+                                route = Route.SearchScreen.route
+                            )
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     ) {
         val bottomPadding = it.calculateBottomPadding()
